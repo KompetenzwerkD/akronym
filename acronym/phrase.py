@@ -1,5 +1,4 @@
 import re
-import pandas as pd
 from dataclasses import dataclass
 from .wordlist import WordListEntry
 

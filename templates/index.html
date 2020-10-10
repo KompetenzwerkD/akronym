@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+
+    <meta charset="UTF-8">
+    <title>Akronymisierungstool</title>
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+
+    <!-- CSS Reset -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+
+    <!-- Milligram CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+
+    <style>
+      html {
+        background-color: #222;
+        color: #efefef;
+      }
+      .highlight {color: lightcoral;}
+      .form {
+        background-color: #333;
+        color:#efefef;        
+      }
+      .result { 
+        background-color: #333;
+        color:#efefef;
+        margin-top: 20px;
+        padding: 20px;
+      }
+      .info {
+        font-size: 0.8em;
+      }
+      h3 {
+        margin-top:10px;
+        margin-bottom: 0px;
+      }
+      .header {
+        padding: 20px;
+      }
+    </style>
+
+  </head>
+  <body>
+    <div class="header">
+      <h1>Akronymisierungstool</h1>
+
+      <form action="/" method="get">
+        <input type="text" class="form" placeholder="Langtitel (min. 2 Wörter)" id="title" name="title" />
+        <input class="button-primary" type="submit" value="Finde Akronyme" />
+      </form>
+
+
+      <h2>{{title}}</h2>
+    </div>    
+
+    {% for result in results %}
+    <div class="result">
+      <div class="info">
+        #{{result.rank}} [Score: {{ "%.3f"|format(result.score)}}]
+      </div>
+      <div>
+        <h3>{{result.html}}</h3>
+      </div>
+    </div>
+    {% endfor %}
+
+
+  </body>
+</html>

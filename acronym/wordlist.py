@@ -1,6 +1,6 @@
 import re
 import csv
-import pandas as pd
+#import pandas as pd
 from dataclasses import dataclass
 
 class WordList:
