@@ -26,14 +26,25 @@
         color:#efefef;        
       }
       .result { 
+        overflow: hidden;
         background-color: #333;
         color:#efefef;
-        margin-top: 20px;
-        padding: 20px;
+        margin-top: 10px;
+        padding: 10px;
+        min-height: 70px;
       }
       .info {
+        float: left;
+        width: 120px;
         font-size: 0.8em;
+        height: 100%x;
+        vertical-align: center;
+        padding-top: 7px;
       }
+      .acronym {
+        float: left;
+        min-height: 50px;
+      }      
       h3 {
         margin-top:10px;
         margin-bottom: 0px;
@@ -41,6 +52,7 @@
       .header {
         padding: 20px;
       }
+
     </style>
 
   </head>
@@ -60,9 +72,9 @@
     {% for result in results %}
     <div class="result">
       <div class="info">
-        #{{result.rank}} [Score: {{ "%.3f"|format(result.score)}}]
+        <a id="{{result.rank}}"></a>#{{result.rank}} <br />Score: {{ "%.3f"|format(result.score)}}
       </div>
-      <div>
+      <div class="acronym">
         <h3>{{result.html}}</h3>
       </div>
     </div>

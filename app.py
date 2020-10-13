@@ -40,7 +40,7 @@ async def index(request):
             
             for i, acronym in enumerate(p.acronyms[:50]):
                 results.append({
-                    "rank": i,
+                    "rank": i+1,
                     "acronym": acronym.word.value.upper(),
                     "score": acronym.score,
                     "html": build_title_html(p, acronym)

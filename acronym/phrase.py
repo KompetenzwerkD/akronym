@@ -64,17 +64,19 @@ class Phrase:
 
     def _calculate_score(self, word_list_entry, positions):
         """
-        todo
+        wip
         """
-
-        first_letter_bonus = 0
+        if positions[0] == 0:
+            initials_bonus = 5
+        else:
+            initials_bonus = 0
         for position in positions:
             if position in self.word_pos:
-                first_letter_bonus += 1
+                initials_bonus += 1
 
-        first_letter_bonus = first_letter_bonus / len(self.tokens) * 15
+        initials_bonus = initials_bonus / len(self.tokens) * 15
 
-        return float(len(word_list_entry) * 0.5 + (word_list_entry.freq_ratio * 15)) + first_letter_bonus
+        return float(len(word_list_entry) * 0.5 + (word_list_entry.freq_ratio * 15)) + initials_bonus
 
 
 @dataclass
