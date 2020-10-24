@@ -125,11 +125,16 @@ async def result_card(request, title, n):
         return response.json({})
 
 @app.route("/<title>")
-async def index(request, title):        
+async def search(request, title):        
     results = get_acronyms(title)
 
     return jinja.render("index.html", request, title=title, results=results)
 
+
+@app.route("/")
+@jinja.template("index.html")
+async def index(request):
+    return {}
 
 if __name__ ==  "__main__":
     app.run(host="0.0.0.0", port=4000, debug=True)
