@@ -60,7 +60,7 @@
     {% for result in results %}
     <div class="result">
       <div class="info">
-        #{{result.rank}} [Score: {{ "%.3f"|format(result.score)}}]
+        <a id="{{result.rank}}"></a><a href="/{{title}}/{{result.rank}}.png">#{{result.rank}}</a> [Score: {{ "%.3f"|format(result.score)}}]
       </div>
       <div>
         <h3>{{result.html}}</h3>
