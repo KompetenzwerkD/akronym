@@ -2,7 +2,7 @@
 
 ## Requirements
 
-Python 3.8
+Docker
 
 ## Usage
 
@@ -12,11 +12,13 @@ Python 3.8
 $ git clone https://github.com/kompetenzwerkd/akronym
 ```
 
-2. Akronyme finden
+2. Run with docker
 
-```zsh
-$ python prototype.py "Sächsische Akademie der Wissenschaften zu Leipzig"
 ```
+$ sudo docker-compose up
+```
+
+The application starts on localhost:3003
 
 ## Lizenz
 
