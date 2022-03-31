@@ -4,7 +4,7 @@
 
 
     <meta charset="UTF-8">
-    <title>Akronymisierungstool</title>
+    <title>kowed | acronymifier </title>
 
     <!-- Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
@@ -19,6 +19,11 @@
       html {
         background-color: #222;
         color: #efefef;
+        margin:auto;
+      }
+      body {
+        max-width: 1120px;
+        margin:auto;
       }
       .highlight {color: lightcoral;}
       .form {
@@ -26,25 +31,23 @@
         color:#efefef;        
       }
       .result { 
+        float: left;
         overflow: hidden;
         background-color: #333;
         color:#efefef;
-        margin-top: 10px;
-        padding: 10px;
-        min-height: 70px;
-      }
-      .info {
-        float: left;
-        width: 120px;
+        width: 530px;
         font-size: 0.8em;
-        height: 100%x;
+        min-height: 50px;
         vertical-align: center;
-        padding-top: 7px;
+        padding: 15px;
+        margin-left:20px;
+        margin-bottom: 20px;
       }
       .acronym {
-        float: left;
         min-height: 50px;
       }      
+      .info {      
+      }
       h3 {
         margin-top:10px;
         margin-bottom: 0px;
@@ -52,41 +55,49 @@
       .header {
         padding: 20px;
       }
-
+      .full {
+        width: 100%
+      }
+      .center {
+        margin:auto;
+      }
     </style>
 
   </head>
   <body>
     <div class="header">
-      <h1>Akronymisierungstool</h1>
+      <h1>acronymifier</h1>
 
       <script>
         function search() {
-          window.location.replace("/"+document.getElementById("title").value)
+          window.location.replace("{{url_prefix}}/"+document.getElementById("title").value)
           return false
         }        
       </script>
 
       <form id="titleForm" onsubmit="return search();">
-        <input type="text" class="form" placeholder="Langtitel (min. 2 Wörter)" id="title" name="title" />
-        <input type="submit">
+        <input type="text" class="form" placeholder="long title (min. 2 words)" id="title" name="title" />
+        <input type="submit" />
       </form>
 
 
       <h2>{{title}}</h2>
     </div>    
 
-    {% for result in results %}
-    <div class="result">
-      <div class="info">
-        <a id="{{result.rank}}"></a><a href="/{{title}}/{{result.rank}}.png">#{{result.rank}}</a> [Score: {{ "%.3f"|format(result.score)}}]
+    <div class="full">
+      <div class="center">
+      {% for result in results %}
+      <div class="result">
+        <div class="info">
+          <a id="{{result.rank}}"></a><a href="{{url_prefix}}/{{title}}/{{result.rank}}/card.png">#{{result.rank}}</a> [Score: {{ "%.3f"|format(result.score)}}]  <a href="{{url_prefix}}/{{title}}/{{result.rank}}/card.png">card</a>
+        </div>
+        <div class="acronym">
+          <h3>{{result.html}}</h3>
+        </div>
       </div>
-      <div class="acronym">
-        <h3>{{result.html}}</h3>
+      {% endfor %}
       </div>
     </div>
-    {% endfor %}
-
 
   </body>
 </html>

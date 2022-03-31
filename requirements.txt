@@ -1,0 +1,4 @@
+sanic==21.12.1
+sanic-jinja2==2022.1.13
+Sanic-Cors==2.0.1
+redis==4.2.0

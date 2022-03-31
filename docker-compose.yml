@@ -1,0 +1,12 @@
+version: '3.0'
+
+services:
+  redis:
+    image: bitnami/redis:latest
+    environment:
+      - REDIS_PORT_NUMBER=6379
+      - ALLOW_EMPTY_PASSWORD=yes
+  acronym:
+    build: .
+    ports:
+      - '3003:3003'

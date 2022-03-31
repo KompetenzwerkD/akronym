@@ -3,22 +3,28 @@ import json
 import logging
 from PIL import Image, ImageDraw, ImageFont
 from io import StringIO, BytesIO
+from urllib.parse import unquote
 from sanic import Sanic, response
+from sanic_cors import CORS
 from sanic_jinja2 import SanicJinja2
 from acronym import WordList, Phrase
+
+
+URL_PREFIX = "/acronym"
 
 N_DATASET = "data/N_1M_clean.csv"
 word_list = WordList(N_DATASET)
 
-app = Sanic(name="Akronymisierungstool")
-jinja = SanicJinja2(app, pkg_name="app")
+app = Sanic("acronym_tool")
+CORS(app)
+jinja = SanicJinja2(app, pkg_name="acronym")
 
 
 r = redis.StrictRedis(
-    host="localhost", 
+    host="redis", 
     port=6379, 
     db=0,
-    charset="utf-8", 
+    encoding="utf-8", 
     decode_responses=True)
 
 
@@ -34,7 +40,7 @@ def build_title_html(phrase, acronym):
             html += "</span>"
         if i+1 in acronym.positions:
             html += "<span class='highlight'>"
-    return "<span class='highlight'>{}</span> - {}".format(acronym.word.value.upper(), html)
+    return "<span class='highlight'>{}</span><br/>{}".format(acronym.word.value.upper(), html)
 
 
 def get_acronyms(title):
@@ -63,13 +69,14 @@ def get_acronyms(title):
     return results
 
 
-@app.route("/<title>/<n>.png")
-async def result_card(request, title, n):
+@app.get(URL_PREFIX+"/<title>/<no>/card.png")
+async def result_card(request, title, no):
+    title = unquote(title)
     results = get_acronyms(title)
-    n = int(n)
-    if n > 0 and n <= len(results):
+    no = int(no)
+    if no > 0 and no <= len(results):
 
-        data = results[n-1]
+        data = results[no-1]
 
         acronym = data["acronym"]
 
@@ -124,17 +131,18 @@ async def result_card(request, title, n):
     else:
         return response.json({})
 
-@app.route("/<title>")
-async def search(request, title):        
+@app.route(URL_PREFIX+"/<title>")
+async def search(request, title):
+    title = unquote(title)
     results = get_acronyms(title)
+    
+    return jinja.render("index.html", request, url_prefix=URL_PREFIX, title=title, results=results)
 
-    return jinja.render("index.html", request, title=title, results=results)
 
-
-@app.route("/")
-@jinja.template("index.html")
+@app.get(URL_PREFIX+"/")
 async def index(request):
-    return {}
+    
+    return jinja.render("index.html", request, url_prefix=URL_PREFIX)
 
 if __name__ ==  "__main__":
     app.run(host="0.0.0.0", port=4000, debug=True)
